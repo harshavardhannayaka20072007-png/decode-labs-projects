@@ -3,6 +3,8 @@ import numpy as np
 from sklearn.impute import KNNImputer
 import pandera.pandas as pa
 from pandera import Column, Check, DataFrameSchema
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # ==========================================
 # 1. LOAD DATASET
@@ -201,3 +203,40 @@ validated_df.to_csv(output_csv, index=False)
 
 print(f"\nPipeline Execution Finished Successfully!")
 print(f"Cleaned dataset saved as:\n - Parquet: '{output_parquet}'\n - CSV: '{output_csv}'")
+
+# ==========================================
+# 5. MODULE 4: GRAPHICAL VISUALIZATION
+# ==========================================
+print(
+    "\n=========================================="
+)
+print("--- GENERATING VISUALIZATIONS ---")
+print(
+    "=========================================="
+)
+
+# Set visual style
+sns.set_theme(style="whitegrid")
+
+# Create a figure with subplots
+plt.figure(figsize=(10, 5))
+
+# Plot 1: Distribution of TotalPrice after cleaning
+plt.subplot(1, 2, 1)
+sns.histplot(validated_df["TotalPrice"], kde=True, color="blue")
+plt.title("Distribution of TotalPrice")
+
+# Plot 2: Boxplot to check for remaining outliers
+plt.subplot(1, 2, 2)
+sns.boxplot(y=validated_df["TotalPrice"], color="orange")
+plt.title("Boxplot of TotalPrice")
+
+plt.tight_layout()
+
+# Save the plot as an image so you can use it in your reports/LinkedIn
+output_plot = "task1_visualization.png"
+plt.savefig(output_plot)
+print(f"Visualization saved successfully as: '{output_plot}'")
+
+# Display the interactive plot window
+plt.show()
